@@ -24,6 +24,17 @@ vim.g.mapleader = " "
 vim.o.termguicolors = true
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
 
+vim.diagnostic.config({
+	signs = {
+		text = {
+			[vim.diagnostic.severity.ERROR] = '●',
+			[vim.diagnostic.severity.WARN]  = '●',
+			[vim.diagnostic.severity.HINT]  = '⚑',
+			[vim.diagnostic.severity.INFO]  = '»',
+		},
+	},
+})
+
 vim.pack.add({
 	{ src = "https://github.com/sainnhe/sonokai" },
 	{ src = "https://github.com/neovim/nvim-lspconfig" },
@@ -33,6 +44,7 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-telescope/telescope.nvim" },
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/diepm/vim-rest-console" },
+	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
 })
 
 require "nvim-treesitter".setup({
@@ -54,7 +66,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 })
 
 
-vim.lsp.enable({ "lua_ls", "basedpyright", "tinymist" })
+vim.lsp.enable({ "lua_ls", "basedpyright", "tinymist", "ruff" })
 vim.lsp.inlay_hint.enable(true)
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
@@ -111,3 +123,8 @@ require('telescope').setup{
     },
   }
 }
+
+vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
+
+
+require("gitsigns").setup()
