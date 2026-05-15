@@ -70,6 +70,7 @@ vim.lsp.enable({ "lua_ls", "basedpyright", "tinymist", "ruff" })
 vim.lsp.inlay_hint.enable(true)
 
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
+vim.keymap.set('v', '<leader>lf', vim.lsp.buf.format)
 
 require "oil".setup({ view_options = { show_hidden = true, } })
 vim.keymap.set('n', '<leader>e', ":Oil<CR>")
