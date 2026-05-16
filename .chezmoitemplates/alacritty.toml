@@ -4,7 +4,7 @@ program = "wsl.exe"
 args = ["~", "-d", "Ubuntu"]
 {{- else if eq .chezmoi.os "linux" }}
 #[terminal.shell]
-#program = "/usr/bin/zsh"
+#program = "/usr/bin/fish"
 {{- end }}
 
 # everything else (font, colors, keybinds, window settings) stays as-is, unchanged
