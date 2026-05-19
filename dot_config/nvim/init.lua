@@ -20,6 +20,7 @@ if vim.env.SSH_TTY ~= nil then
 		},
 	}
 end
+
 vim.g.mapleader = " "
 vim.o.termguicolors = true
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
@@ -45,12 +46,84 @@ vim.pack.add({
 	{ src = "https://github.com/nvim-lua/plenary.nvim" },
 	{ src = "https://github.com/diepm/vim-rest-console" },
 	{ src = "https://github.com/lewis6991/gitsigns.nvim" },
+  { src = "https://github.com/hrsh7th/nvim-cmp" },
+  { src = "https://github.com/hrsh7th/cmp-nvim-lsp" },
+  { src = "https://github.com/hrsh7th/cmp-buffer" },
+  { src = "https://github.com/hrsh7th/cmp-path" },
+  { src = "https://github.com/hrsh7th/cmp-cmdline" },
+  { src = "https://github.com/L3MON4D3/LuaSnip" },
+  { src = "https://github.com/saadparwaiz1/cmp_luasnip" },
 })
 
+local cmp = require("cmp")
+local luasnip = require("luasnip")
+
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      luasnip.lsp_expand(args.body)
+    end,
+  },
+  mapping = cmp.mapping.preset.insert({
+    ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+    ["<C-f>"] = cmp.mapping.scroll_docs(4),
+    ["<C-Space>"] = cmp.mapping.complete(),
+    ["<C-e>"] = cmp.mapping.abort(),
+    ["<CR>"] = cmp.mapping.confirm({ select = true }),
+    ["<Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      elseif luasnip.expand_or_jumpable() then
+        luasnip.expand_or_jump()
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+    ["<S-Tab>"] = cmp.mapping(function(fallback)
+      if cmp.visible() then
+        cmp.select_prev_item()
+      elseif luasnip.jumpable(-1) then
+        luasnip.jump(-1)
+      else
+        fallback()
+      end
+    end, { "i", "s" }),
+  }),
+  sources = cmp.config.sources({
+    { name = "nvim_lsp" },
+    { name = "luasnip" },
+  }, {
+    { name = "buffer" },
+    { name = "path" },
+  }),
+})
+
+-- `/` and `?` search completion
+cmp.setup.cmdline({ "/", "?" }, {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = { { name = "buffer" } },
+})
+
+-- `:` command-line completion
+cmp.setup.cmdline(":", {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = "path" },
+  }, {
+    { name = "cmdline" },
+  }),
+})
+
+-- Tell LSP servers about cmp capabilities
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 require "nvim-treesitter".setup({
 	ensure_installed = { "python", "html", "javascript" },
 	highlight = { enable = true }
 })
+
+
+----------------------------------------------------------------------
+
 
 -- sonokai but with vague's background color
 vim.cmd("colorscheme sonokai")
