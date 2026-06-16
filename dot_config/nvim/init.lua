@@ -1,7 +1,8 @@
 vim.opt.winborder = "rounded"
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.wrap = false
+vim.o.wrap = true
+vim.o.showbreak="↪"
 vim.o.tabstop = 2
 vim.o.swapfile = false
 vim.o.signcolumn = "yes"
@@ -21,6 +22,7 @@ if vim.env.SSH_TTY ~= nil then
 	}
 end
 
+vim.keymap.set("n", "<leader>ww", function() vim.o.wrap = not vim.o.wrap end)
 vim.g.mapleader = " "
 vim.o.termguicolors = true
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
