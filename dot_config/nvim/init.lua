@@ -22,7 +22,7 @@ if vim.env.SSH_TTY ~= nil then
 	}
 end
 
-vim.keymap.set("n", "<leader>ww", function() vim.o.wrap = not vim.o.wrap end)
+vim.keymap.set("n", "<leader>wp", function() vim.o.wrap = not vim.o.wrap end)
 vim.g.mapleader = " "
 vim.o.termguicolors = true
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
@@ -55,6 +55,8 @@ vim.pack.add({
   { src = "https://github.com/hrsh7th/cmp-cmdline" },
   { src = "https://github.com/L3MON4D3/LuaSnip" },
   { src = "https://github.com/saadparwaiz1/cmp_luasnip" },
+  { src = "https://github.com/nvim-mini/mini.files" },
+  { src = "https://github.com/nvim-mini/mini.colors" },
 })
 
 local cmp = require("cmp")
@@ -147,8 +149,25 @@ vim.lsp.inlay_hint.enable(true)
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('v', '<leader>lf', vim.lsp.buf.format)
 
-require "oil".setup({ view_options = { show_hidden = true, } })
-vim.keymap.set('n', '<leader>e', ":Oil<CR>")
+require('mini.files').setup({
+	windows = {
+		preview = true,
+		width_preview = 50,
+		width_focus = 40,
+	}
+})
+vim.keymap.set('n', '<leader>e', "<Cmd>lua MiniFiles.open()<CR>")
+vim.api.nvim_set_hl(0, "MiniFilesNormal", { fg = "#e2e2e3", bg = "#141415" })
+--vim.api.nvim_set_hl(0, "MiniFilesFile",      { fg = "#e7c664" }) --#e7c664
+-- vim.api.nvim_set_hl(0, "MiniFilesDirectory", { fg = "#85d3f2", bold = true })
+vim.api.nvim_set_hl(0, "MiniFilesTitleFocused", { fg = "#e7c664",bg = "#141415", bold = true })
+vim.api.nvim_set_hl(0, "MiniFilesTitle", { fg = "#e2e2e3",bg = "#141415", bold = true })
+vim.api.nvim_set_hl(0, "MiniFilesBorder",    { fg = "#4e432f", bg = "#141415" })
+
+-- require "oil".setup({ view_options = { show_hidden = true, } })
+-- vim.keymap.set('n', '<leader>e', ":Oil<CR>")
+
+vim.api.nvim_set_hl(0, "NormalNC", { bg = "#1e1e1f" })
 
 vim.keymap.set('n', '<leader>w', "<C-w>w")
 
@@ -201,6 +220,5 @@ require('telescope').setup{
 }
 
 vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
-
 
 require("gitsigns").setup()
