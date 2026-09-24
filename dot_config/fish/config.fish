@@ -1,5 +1,5 @@
-## Homebrew (cross-platform)
-set -l brew_paths /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
+## Homebrew
+set -l brew_paths /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew
 for brew_path in $brew_paths
     if test -x $brew_path
         eval ($brew_path shellenv fish)

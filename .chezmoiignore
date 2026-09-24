@@ -1,10 +1,2 @@
+README.md
 .config/nvim/nvim-pack-lock.json
-
-{{- if ne .chezmoi.os "windows" }}
-AppData
-{{- end }}
-
-{{- if ne .chezmoi.os "linux" }}
-.config/alacritty
-{{- /* add other Linux-only paths here as you accumulate them */ -}}
-{{ end }}
