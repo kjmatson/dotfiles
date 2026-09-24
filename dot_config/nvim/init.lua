@@ -1,12 +1,14 @@
 vim.opt.winborder = "rounded"
 vim.o.number = true
 vim.o.relativenumber = true
-vim.o.wrap = true
+vim.o.wrap = false
 vim.o.showbreak="↪"
 vim.o.tabstop = 2
 vim.o.swapfile = false
 vim.o.signcolumn = "yes"
 vim.o.clipboard = "unnamedplus"
+vim.o.ignorecase = true
+vim.o.smartcase = true   
 
 if vim.env.SSH_TTY ~= nil then
 	vim.g.clipboard = {
@@ -22,7 +24,6 @@ if vim.env.SSH_TTY ~= nil then
 	}
 end
 
-vim.keymap.set("n", "<leader>wp", function() vim.o.wrap = not vim.o.wrap end)
 vim.g.mapleader = " "
 vim.o.termguicolors = true
 vim.opt.completeopt = { "menuone", "noselect", "popup" }
@@ -36,6 +37,16 @@ vim.diagnostic.config({
 			[vim.diagnostic.severity.INFO]  = '»',
 		},
 	},
+})
+
+
+vim.api.nvim_create_autocmd("PackChanged", {
+  callback = function(ev)
+    local d = ev.data
+    if d.spec.name == "markdown-preview.nvim" and (d.kind == "install" or d.kind == "update") then
+      vim.fn["mkdp#util#install"]()
+    end
+  end,
 })
 
 vim.pack.add({
@@ -57,6 +68,7 @@ vim.pack.add({
   { src = "https://github.com/saadparwaiz1/cmp_luasnip" },
   { src = "https://github.com/nvim-mini/mini.files" },
   { src = "https://github.com/nvim-mini/mini.colors" },
+  { src = "https://github.com/iamcco/markdown-preview.nvim" },
 })
 
 local cmp = require("cmp")
@@ -189,7 +201,7 @@ vim.g.vrc_response_default_content_type = 'application/json'
 -- Tyspt
 require('typst-preview').setup({
 	-- Use Windows start command via cmd.exe
-	open_cmd = "cmd.exe /c start %s",
+	--open_cmd = "cmd.exe /c start %s",
 })
 
 vim.lsp.config('tinymist', {
@@ -222,3 +234,4 @@ require('telescope').setup{
 vim.keymap.set('n', 'gl', '<cmd>lua vim.diagnostic.open_float()<CR>')
 
 require("gitsigns").setup()
+
