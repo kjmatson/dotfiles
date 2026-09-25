@@ -17,7 +17,7 @@ On other machines (Windows, WSL, …) copy what you need by hand: `chezmoi cat ~
 ## Daily loop
 
 ```fish
-chezmoi edit ~/.config/fish/config.fish   # edit the source copy; auto-applies (edit.apply = true)
+chezmoi edit ~/.config/fish/config.fish   # edit the source copy in $EDITOR (nvim); auto-applies (edit.apply = true)
 chezmoi re-add                            # edited the live file directly? pull changes back into the repo
 chezmoi diff                              # what would apply change?
 chezmoi apply -v                          # write source -> home

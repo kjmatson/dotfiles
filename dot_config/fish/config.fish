@@ -27,6 +27,9 @@ set -U __done_notification_urgency_level low
 
 
 ## Environment
+set -gx EDITOR nvim
+set -gx VISUAL nvim
+
 # Source ~/.fish_profile if it exists
 if test -f ~/.fish_profile
     source ~/.fish_profile
