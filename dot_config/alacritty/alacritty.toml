@@ -4,7 +4,7 @@ WINIT_X11_SCALE_FACTOR = "1"
 
 [window]
 dynamic_padding = true
-decorations = "none"
+#decorations = "none"
 decorations_theme_variant = "Dark"
 #startup_mode = "Maximized"
 padding = { x = 18, y = 18}
